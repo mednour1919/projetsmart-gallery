@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>pagetransaction</class>
+ <widget class="QDialog" name="pagetransaction">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1349</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QStackedWidget" name="stackedWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>1251</width>
+     <height>501</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">/* styles.qss */
+
+* {
+    font-family: &quot;Playfair Display&quot;, serif; /* Fallback to generic serif font if Playfair Display is not available */
+    color: black;
+}
+/* Style for QStackedWidget */
+QStackedWidget {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+}
+
+
+/* Style for QGroupBox */
+
+
+/* Style for QLineEdit (input box) */
+QLineEdit {
+    background-color: rgba(230, 126, 34, 0.9); /* Slightly transparent orange background */
+    border: 1px solid #d35400; /* Change to a darker orange color */
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+}
+
+/* Style for QComboBox */
+QComboBox {
+    background-color: rgba(230, 126, 34, 0.9); /* Slightly transparent orange background */
+    border: 1px solid #d35400; /* Change to a darker orange color */
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #ffffff;
+    color: black;
+}
+
+/* Style for QDateEdit */
+QDateEdit {
+    background-color: rgba(230, 126, 34, 0.9); /* Slightly transparent orange background */
+    border: 1px solid #d35400; /* Change to a darker orange color */
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+}
+
+/* Style for QLabel */
+QLabel {
+    color: #e67e22; /* Change to a bright orange color */
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+/* Style for QPushButton */
+QPushButton {
+    background-color: rgba(230, 126, 34, 0.9); /* Slightly transparent orange background */
+    border: 1px solid #d35400; /* Change to a darker orange color */
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+}
+
+/* Additional styling for better appearance */
+QPushButton:hover {
+    background-color: #d35400; /* Darker orange color on hover */
+}
+
+QPushButton:pressed {
+    background-color: #a04000; /* Even darker orange color on press */
+}
+
+/* Style for QTableView */
+QTableView {
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
+    border: 5px solid #e67e22; /* Creative thick orange border */
+    border-radius: 15px; /* Rounded corners for a more creative look */
+    selection-background-color: #e67e22; /* Change to a bright orange color */
+}
+
+/* Style for QHeaderView */
+QHeaderView::section {
+    background-color: rgba(230, 126, 34, 0.9); /* Slightly transparent orange background */
+    color: white;
+    padding: 5px;
+    border: 1px solid #d35400; /* Change to a darker orange color */
+    border-radius: 5px;
+}
+
+/* Style for QTableWidgetItem */
+QTableView QTableWidget::item {
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
+    color: black;
+    padding: 5px;
+}
+
+QTableView QTableWidget::item:selected {
+    background-color: rgba(230, 126, 34, 0.9); /* Slightly transparent orange background */
+    color: white;
+}
+
+QTableView QTableWidget::item:alternate {
+    background-color: #ecf0f1;
+    color: black;
+}
+
+/* Style for QTabWidget */
+QTabWidget {
+    background-color: #ffffff; /* Set background color for the tab widget */
+}
+
+/* Style for QTabBar */
+QTabBar {
+    background-color: #e67e22; /* Set the background color for the tab bar */
+}
+
+/* Style for selected tab */
+QTabBar::tab:selected {
+    background-color: #d35400; /* Darker orange color for the selected tab */
+    color: white; /* Text color for the selected tab */
+    border: 2px solid #a04000; /* Border style for the selected tab */
+    border-bottom: none; /* Remove bottom border to create a top border effect */
+}
+
+/* Style for unselected tabs */
+QTabBar::tab {
+    background-color: #e67e22; /* Default background color for tabs */
+    color: white; /* Default text color for tabs */
+    border: 2px solid #d35400; /* Default border style for tabs */
+    border-bottom: none; /* Remove bottom border to create a top border effect */
+}
+
+/* Style for unselected tabs on hover */
+QTabBar::tab:hover {
+    background-color: #d35400; /* Darker orange color on hover for unselected tabs */
+}
+</string>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="page_2">
+    <widget class="QLineEdit" name="montant_t">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>170</y>
+       <width>251</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>60</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>id_transactions</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>240</y>
+       <width>201</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>date_transactions</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>150</y>
+       <width>201</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>montant</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>380</y>
+       <width>191</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>type_transactions</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>310</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>statut_paiment</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="id_t">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>80</y>
+       <width>251</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="date_t">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>260</y>
+       <width>251</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="statutpaiment_t">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>330</y>
+       <width>251</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="type_t">
+     <property name="geometry">
+      <rect>
+       <x>860</x>
+       <y>400</y>
+       <width>251</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTableView" name="tab_trans">
+     <property name="geometry">
+      <rect>
+       <x>15</x>
+       <y>81</y>
+       <width>791</width>
+       <height>361</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pb_supprimer">
+     <property name="geometry">
+      <rect>
+       <x>1120</x>
+       <y>450</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Supprimer</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pb_modifier">
+     <property name="geometry">
+      <rect>
+       <x>980</x>
+       <y>450</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>modifier</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pb_ajouter">
+     <property name="geometry">
+      <rect>
+       <x>830</x>
+       <y>450</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ajouter</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_3">
+    <widget class="QTableView" name="tableView_2">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>130</y>
+       <width>941</width>
+       <height>361</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>60</y>
+       <width>361</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>supprimer une transaction :</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label_12">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1351</width>
+     <height>641</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/img/img/R.jpg);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QCommandLinkButton" name="commandLinkButton_24">
+   <property name="geometry">
+    <rect>
+     <x>1080</x>
+     <y>0</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: rgba(230, 126, 34, 0.9); /* Slightly transparent orange background */
+    border: 1px solid #d35400; /* Change to a darker orange color */
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+}</string>
+   </property>
+   <property name="text">
+    <string>retour</string>
+   </property>
+  </widget>
+  <zorder>label_12</zorder>
+  <zorder>stackedWidget</zorder>
+  <zorder>commandLinkButton_24</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

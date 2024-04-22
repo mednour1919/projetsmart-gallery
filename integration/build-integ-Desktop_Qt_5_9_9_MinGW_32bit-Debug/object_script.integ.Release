@@ -1,0 +1,15 @@
+INPUT(
+./release/main.o
+./release/mainwindow.o
+./release/pageartiste.o
+./release/pageevenement.o
+./release/pageoeuvre.o
+./release/pagetransaction.o
+./release/transactions.o
+./release/qrc_Resources.o
+./release/moc_mainwindow.o
+./release/moc_pageartiste.o
+./release/moc_pageevenement.o
+./release/moc_pageoeuvre.o
+./release/moc_pagetransaction.o
+);

@@ -1,0 +1,15 @@
+INPUT(
+./debug/main.o
+./debug/mainwindow.o
+./debug/pageartiste.o
+./debug/pageevenement.o
+./debug/pageoeuvre.o
+./debug/pagetransaction.o
+./debug/transactions.o
+./debug/qrc_Resources.o
+./debug/moc_mainwindow.o
+./debug/moc_pageartiste.o
+./debug/moc_pageevenement.o
+./debug/moc_pageoeuvre.o
+./debug/moc_pagetransaction.o
+);

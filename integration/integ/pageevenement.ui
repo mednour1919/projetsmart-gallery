@@ -29,7 +29,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QTabWidget" name="tabWidget">
+  <widget class="QTabWidget" name="LCD">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -180,7 +180,7 @@ QTabBar::tab:hover {
 </string>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -601,6 +601,119 @@ QTabBar::tab:hover {
       </rect>
      </property>
     </widget>
+   </widget>
+   <widget class="QWidget" name="tab_3">
+    <attribute name="title">
+     <string>ench</string>
+    </attribute>
+    <widget class="QLineEdit" name="prix_o">
+     <property name="geometry">
+      <rect>
+       <x>272</x>
+       <y>140</y>
+       <width>251</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTableView" name="tab_oeuvre">
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>80</y>
+       <width>341</width>
+       <height>291</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="date_o">
+     <property name="geometry">
+      <rect>
+       <x>900</x>
+       <y>170</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="discription_o">
+     <property name="geometry">
+      <rect>
+       <x>900</x>
+       <y>270</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="nom_o">
+     <property name="geometry">
+      <rect>
+       <x>900</x>
+       <y>140</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="nom_a_2">
+     <property name="geometry">
+      <rect>
+       <x>900</x>
+       <y>320</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushB">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>140</y>
+       <width>93</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>LCD</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushc1">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>280</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Client 1</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushc2">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>280</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Client 2</string>
+     </property>
+    </widget>
+    <zorder>nom_o</zorder>
+    <zorder>date_o</zorder>
+    <zorder>discription_o</zorder>
+    <zorder>nom_a_2</zorder>
+    <zorder>prix_o</zorder>
+    <zorder>tab_oeuvre</zorder>
+    <zorder>pushB</zorder>
+    <zorder>pushc1</zorder>
+    <zorder>pushc2</zorder>
    </widget>
   </widget>
   <widget class="QCommandLinkButton" name="commandLinkButton_24">

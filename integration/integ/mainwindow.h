@@ -9,6 +9,8 @@
 #include "pageclient.h"
 #include "pagepersonnel.h"
 
+#include <QMainWindow>
+#include <QTimer>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -41,6 +43,7 @@ private slots:
 
     void on_pushButton_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     pageevenement *Pageevenement;
@@ -49,5 +52,8 @@ private:
     pageartiste *Pageartiste;
     pageclient *Pageclient;
     pagepersonnel *Pagepersonnel;
+
+    QTimer *timer;
 };
+
 #endif // MAINWINDOW_H

@@ -2,6 +2,11 @@
 #define PAGEEVENEMENT_H
 class event;
 
+#include <QMainWindow>
+#include "oeuvre.h"
+#include "arduino.h"
+#include <QTimer>
+#include <QTimer>
 #include <QDialog>
 #include <QMainWindow>
 #include <QtSql>
@@ -13,6 +18,7 @@ class event;
 #include "event.h"
 #include "mainwindow.h"
 #include <QStandardItemModel>
+class oeuvre;
 class MainWindow;
 
 class pageevenement;
@@ -32,7 +38,7 @@ public:
        QSqlQueryModel *sortByParticipantsDesc();
 private slots:
     void on_pb_supprimer_clicked();
-
+  void on_tabOeuvreSelectionChanged(const QModelIndex &current, const QModelIndex &previous);
     void on_pb_modifier_clicked();
 
     void on_pb_ajouter_clicked();
@@ -51,7 +57,7 @@ private slots:
 
 void on_eventSearchLineEdit_textChanged(const QString &text);
 
-
+void on_pushB_clicked();
 void statistics();
 void on_pushButton_4_clicked();
 
@@ -66,6 +72,10 @@ void mailSent(QString status);
 void loadclientData();
 void loadHighBudgetClients();
 
+void on_pushc1_clicked();
+void delayedButtonClick();
+void on_pushc2_clicked();
+void readData();
 private:
     Ui::pageevenement *ui;
     MainWindow * Mainw;
@@ -74,6 +84,11 @@ private:
     QSortFilterProxyModel *proxyModel;
     QSortFilterProxyModel *eventProxyModel;
     QStandardItemModel *standardModel;
+ Oeuvre oeuvre;
+ QByteArray data; // variable contenant les données reçues
+ QString selectedOeuvreId;
+ Arduino A;
+  QTimer *delayedClickTimer;
 };
 
 

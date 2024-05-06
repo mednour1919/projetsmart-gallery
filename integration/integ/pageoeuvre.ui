@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1032</width>
+    <width>1546</width>
     <height>731</height>
    </rect>
   </property>
@@ -40,7 +40,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1031</width>
+     <width>1241</width>
      <height>731</height>
     </rect>
    </property>
@@ -56,8 +56,8 @@
     <rect>
      <x>150</x>
      <y>60</y>
-     <width>851</width>
-     <height>541</height>
+     <width>1051</width>
+     <height>631</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -366,6 +366,45 @@ QTabBar::tab:hover {
        <width>113</width>
        <height>22</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>400</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Camera</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="QR">
+     <property name="geometry">
+      <rect>
+       <x>520</x>
+       <y>510</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>QR</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="QRCODE">
+     <property name="geometry">
+      <rect>
+       <x>640</x>
+       <y>310</y>
+       <width>401</width>
+       <height>311</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>

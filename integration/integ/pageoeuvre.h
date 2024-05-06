@@ -46,6 +46,10 @@ private slots:
 
     void on_commandLinkButton_24_clicked();
 
+    void on_pushButton_clicked();
+
+    void on_QR_clicked();
+
 private:
     Ui::Pageoeuvre *ui;
     MainWindow * Mainw;

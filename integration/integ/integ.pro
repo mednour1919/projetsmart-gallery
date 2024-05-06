@@ -17,15 +17,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ard.cpp \
+    arduino.cpp \
     artiste.cpp \
+    cameramanager.cpp \
     client.cpp \
     connection.cpp \
     event.cpp \
     main.cpp \
     mainwindow.cpp \
     oeuvre.cpp \
-    pageard.cpp \
     pageartiste.cpp \
     pageclient.cpp \
     pageevenement.cpp \
@@ -33,18 +33,23 @@ SOURCES += \
     pagepersonnel.cpp \
     pagetransaction.cpp \
     pers.cpp \
+    qrcode.cpp \
+    qrcodegeneratordemo.cpp \
+    qrcodegeneratorworker.cpp \
+    qrwidget.cpp \
+    recorder.cpp \
     smtp.cpp \
     transaction.cpp
 
 HEADERS += \
-    ard.h \
+    arduino.h \
     artiste.h \
+    cameramanager.h \
     client.h \
     connection.h \
     event.h \
     mainwindow.h \
     oeuvre.h \
-    pageard.h \
     pageartiste.h \
     pageclient.h \
     pageevenement.h \
@@ -52,18 +57,21 @@ HEADERS += \
     pagepersonnel.h \
     pagetransaction.h \
     pers.h \
+    qrcode.h \
+    qrwidget.h \
+    recorder.h \
     smtp.h \
     transaction.h
 
 FORMS += \
-    ard.ui \
     mainwindow.ui \
     pageartiste.ui \
     pageclient.ui \
     pageevenement.ui \
     pageoeuvre.ui \
     pagepersonnel.ui \
-    pagetransaction.ui
+    pagetransaction.ui \
+    recorder.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

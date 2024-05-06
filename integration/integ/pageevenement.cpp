@@ -1,6 +1,8 @@
 #include "pageevenement.h"
 #include "ui_pageevenement.h"
 #include<QLabel>
+#include "oeuvre.h"
+#include "QDebug"
 #include<QMessageBox>
 #include<QVBoxLayout>
 #include <QStandardItemModel>
@@ -42,8 +44,15 @@ pageevenement::pageevenement(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->nb_e->setValidator(new QIntValidator(0, 99999999, this));
-
+    int ret=A.connect_arduino(); // lancer la connexion à arduino
+    switch(ret){
+    case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+        break;
+    case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+       break;
+    case(-1):qDebug() << "arduino is not available";
+    }
+     QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
 
 
     // Assuming afficher() returns a QSqlQueryModel
@@ -59,6 +68,14 @@ pageevenement::pageevenement(QWidget *parent) :
        connect(ui->sortAscButton, SIGNAL(clicked()), this, SLOT(on_sortAscButton_clicked()));
        connect(ui->sortDescButton, SIGNAL(clicked()), this, SLOT(on_sortDescButton_clicked()));
        connect(ui->tab_client->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(on_tabArtisteSelectionChanged(QModelIndex,QModelIndex)));
+       connect(ui->tab_oeuvre->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+               this, SLOT(on_tabOeuvreSelectionChanged(QModelIndex, QModelIndex)));
+       connect(ui->pushc1, &QPushButton::clicked, this, &pageevenement::on_pushc1_clicked);
+       connect(ui->pushc2, &QPushButton::clicked, this, &pageevenement::on_pushc2_clicked);
+        connect(A.getserial(), SIGNAL(readyRead()), this, SLOT(readData()));
+        delayedClickTimer = new QTimer(this);
+        delayedClickTimer->setSingleShot(true); // Fire only once
+        connect(delayedClickTimer, &QTimer::timeout, this, &pageevenement::delayedButtonClick);
 
          // Load data for tab_client
          loadclientData();
@@ -81,10 +98,29 @@ pageevenement::pageevenement(QWidget *parent) :
     }
 
     ui->tab_events->setModel(standardModel);
+    QSqlQueryModel *oeuvreModel = oeuvre.afficher();
+    QStandardItemModel *oeuvreStandardModel = new QStandardItemModel(oeuvreModel->rowCount(), oeuvreModel->columnCount(), this);
 
-    // Connect the clicked signal to the custom slot for handling selection change
-    connect(ui->tab_events->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
-            this, SLOT(on_tableViewSelectionChanged(QModelIndex, QModelIndex)));
+    // Set the horizontal header names to match the database column names
+    for (int col = 0; col < oeuvreModel->columnCount(); ++col) {
+        oeuvreStandardModel->setHorizontalHeaderItem(col, new QStandardItem(oeuvreModel->headerData(col, Qt::Horizontal).toString()));
+    }
+
+    // Populate the table with data
+    for (int row = 0; row < oeuvreModel->rowCount(); ++row) {
+        for (int col = 0; col < oeuvreModel->columnCount(); ++col) {
+            QModelIndex index = oeuvreModel->index(row, col);
+            QString data = oeuvreModel->data(index).toString();
+            QStandardItem *item = new QStandardItem(data);
+            oeuvreStandardModel->setItem(row, col, item);
+        }
+    }
+
+    ui->tab_oeuvre->setModel(oeuvreStandardModel);
+
+    // Connect the selectionModel() signal to the slot for handling selection change
+    connect(ui->tab_oeuvre->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+            this, SLOT(on_tabOeuvreSelectionChanged(QModelIndex, QModelIndex)));
 }
 
 pageevenement::~pageevenement()
@@ -516,4 +552,154 @@ void pageevenement::mailSent(QString status)
 {
     if(status == "Message sent")
         QMessageBox::warning( 0, tr( "Qt Simple SMTP rdv" ), tr( "Message sent!\n\n" ) );
+}
+
+void pageevenement::on_tabOeuvreSelectionChanged(const QModelIndex &current, const QModelIndex &previous)
+{
+    Q_UNUSED(previous);
+
+    int selectedOeuvreRow = current.row();
+    qDebug() << "Selected row:" << selectedOeuvreRow;
+
+    // Update line edits
+    ui->nom_a_2->setText(ui->tab_oeuvre->model()->index(selectedOeuvreRow, 0).data().toString());
+    ui->date_o->setText(ui->tab_oeuvre->model()->index(selectedOeuvreRow, 1).data().toString());
+    ui->prix_o->setText(ui->tab_oeuvre->model()->index(selectedOeuvreRow, 4).data().toString());
+    ui->discription_o->setText(ui->tab_oeuvre->model()->index(selectedOeuvreRow,3).data().toString());
+    ui->nom_a->setText(ui->tab_oeuvre->model()->index(selectedOeuvreRow, 2).data().toString());
+
+     selectedOeuvreId = ui->tab_oeuvre->model()->index(selectedOeuvreRow, 0).data().toString();
+}
+void pageevenement::on_pushB_clicked()
+{
+    QString text = ui->prix_o->text();
+
+       // Convert the QString to a QByteArray
+       QByteArray data = text.toUtf8();
+
+       // Write the data to Arduino
+       A.write_to_arduino(data);
+}
+
+void pageevenement::on_pushc1_clicked()
+{
+    // Retrieve the current value of prix_o from the database
+    QSqlQuery getPriceQuery;
+    getPriceQuery.prepare("SELECT prix_o FROM deuvre WHERE nom_o = :nom_o");
+    getPriceQuery.bindValue(":nom_o", selectedOeuvreId);
+    if (getPriceQuery.exec() && getPriceQuery.next()) {
+        int currentPrice = getPriceQuery.value(0).toInt();
+
+        // Calculate the new price after increasing
+        int newPrice = currentPrice + 50;
+
+        // Convert the new price to a QString
+        QString newPriceStr = QString::number(newPrice);
+
+        // Construct the message with "Client 1: prix_o" after the increase
+        QString displayTextAfter = "Client 1: " + newPriceStr                    ;
+
+        // Update the prix_o value in the database
+        QSqlQuery updatePriceQuery;
+        updatePriceQuery.prepare("UPDATE deuvre SET prix_o = :prix_o WHERE nom_o = :nom_o");
+        updatePriceQuery.bindValue(":prix_o", newPrice);
+        updatePriceQuery.bindValue(":nom_o", selectedOeuvreId);
+
+        if (updatePriceQuery.exec()) {
+            qDebug() << "prix_o updated successfully in the database";
+
+            // Start a QTimer to click pushB after 2 seconds
+            QTimer::singleShot(2000, this, [=]() {
+                ui->pushB->click();
+            });
+
+            // Start a QTimer to display "won:" after 10 seconds
+            QTimer::singleShot(30000, this, [=]() {
+                QString wonText =  "Client 1 won:";
+                ui->prix_o->setText(wonText);
+
+                // Click pushB after displaying "won:" message
+                QTimer::singleShot(2000, this, [=]() {
+                    ui->pushB->click();
+                });
+            });
+
+            // Update the UI with the new price after increasing
+            ui->prix_o->setText(displayTextAfter);
+        } else {
+            qDebug() << "Error updating prix_o in the database:" << updatePriceQuery.lastError().text();
+        }
+    } else {
+        qDebug() << "Error fetching prix_o from the database:" << getPriceQuery.lastError().text();
+    }
+}
+
+void pageevenement::on_pushc2_clicked()
+{
+    // Retrieve the current value of prix_o from the database
+    QSqlQuery getPriceQuery;
+    getPriceQuery.prepare("SELECT prix_o FROM deuvre WHERE nom_o = :nom_o");
+    getPriceQuery.bindValue(":nom_o", selectedOeuvreId);
+    if (getPriceQuery.exec() && getPriceQuery.next()) {
+        int currentPrice = getPriceQuery.value(0).toInt();
+
+        // Calculate the new price after increasing
+        int newPrice = currentPrice + 50;
+
+        // Convert the new price to a QString
+        QString newPriceStr = QString::number(newPrice);
+
+        // Construct the message with "Client 2: prix_o" after the increase
+        QString displayTextAfter = "Client 2: " + newPriceStr                                   ;
+
+        // Update the prix_o value in the database
+        QSqlQuery updatePriceQuery;
+        updatePriceQuery.prepare("UPDATE deuvre SET prix_o = :prix_o WHERE nom_o = :nom_o");
+        updatePriceQuery.bindValue(":prix_o", newPrice);
+        updatePriceQuery.bindValue(":nom_o", selectedOeuvreId);
+
+        if (updatePriceQuery.exec()) {
+            qDebug() << "prix_o updated successfully in the database";
+
+            // Start a QTimer to click pushB after 2 seconds
+            QTimer::singleShot(2000, this, [=]() {
+                ui->pushB->click();
+            });
+
+            // Start a QTimer to display "won:" after 10 seconds
+            QTimer::singleShot(10000, this, [=]() {
+                QString wonText =  "Client 2  won:";
+                ui->prix_o->setText(wonText);
+
+                // Click pushB after displaying "won:" message
+                QTimer::singleShot(2000, this, [=]() {
+                    ui->pushB->click();
+                });
+            });
+
+            // Update the UI with the new price after increasing
+            ui->prix_o->setText(displayTextAfter);
+        } else {
+            qDebug() << "Error updating prix_o in the database:" << updatePriceQuery.lastError().text();
+        }
+    } else {
+        qDebug() << "Error fetching prix_o from the database:" << getPriceQuery.lastError().text();
+    }
+}
+
+
+
+
+
+void pageevenement::readData() {
+    QByteArray data = A.read_from_arduino(); // Access A using this pointer
+    if (data.contains("1")) {
+        ui->pushc1->click(); // Trigger the click event for pushc1 if "1" is received
+    } else if (data.contains("2")) {
+        ui->pushc2->click(); // Trigger the click event for pushc2 if "2" is received
+    }
+}
+void pageevenement::delayedButtonClick()
+{
+    ui->pushB->click(); // Trigger the click event for pushB
 }

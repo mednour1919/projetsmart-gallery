@@ -20,7 +20,11 @@
 #include "mainwindow.h"
 #include <mainwindow.h>
 #include <QSortFilterProxyModel>
-
+#include <fstream>
+#include"recorder.h"
+#include "qrcode.h"
+using qrcodegen::QrCode;
+using qrcodegen::QrSegment;
 Pageoeuvre::Pageoeuvre(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Pageoeuvre),
@@ -278,4 +282,60 @@ void Pageoeuvre::on_commandLinkButton_24_clicked()
     hide();
     Mainw = new MainWindow(this);
     Mainw->show();
+}
+
+void Pageoeuvre::on_pushButton_clicked()
+{
+    recorder *rec = new recorder(this); // Passing 'this' as the parent will make MainWindow the parent of the recorder dialog
+    rec->setWindowTitle("Enregistrer une image");
+    rec->exec(); // Show the recorder dialog as a modal dialog
+}
+
+void Pageoeuvre::on_QR_clicked()
+{
+    // Check if a row is selected in the table
+    if(ui->tab_oeuvre->currentIndex().row() == -1) {
+        QMessageBox::information(nullptr, QObject::tr("QR"),
+                                 QObject::tr("Veuillez choisir un identifiant.\n"
+                                             "Cliquez sur Ok pour sortir."), QMessageBox::Ok);
+    } else {
+        // Retrieve the selected row index
+        QModelIndex currentIndex = ui->tab_oeuvre->currentIndex();
+
+        // Retrieve data from the selected row in the table
+        QString nom_o = ui->tab_oeuvre->model()->index(currentIndex.row(), 0).data().toString();
+        QString date_o = ui->tab_oeuvre->model()->index(currentIndex.row(), 1).data().toString();
+        QString prix_o = ui->tab_oeuvre->model()->index(currentIndex.row(), 2).data().toString();
+        QString discription_o = ui->tab_oeuvre->model()->index(currentIndex.row(), 3).data().toString();
+
+        // Concatenate data into a single string (or use a suitable format)
+        QString qrData = "Nom: " + nom_o + "\n"
+                         + "Date: " + date_o + "\n"
+                         + "Prix: " + prix_o + "\n"
+                         + "Description: " + discription_o;
+
+        // Use the data to generate the QR code
+        const QrCode qr = QrCode::encodeText(qrData.toStdString().c_str(), QrCode::Ecc::LOW);
+
+        // Save the QR code to a file
+        std::ofstream myfile;
+        myfile.open("qrcode.svg");
+        myfile << qr.toSvgString(1);
+        myfile.close();
+
+        // Load the QR code image
+        QPixmap pix("qrcode.svg");
+
+        // Scale the image as needed
+        QPixmap scaledPix = pix.scaled(200, 200);
+
+        // Display the QR code image
+        ui->QRCODE->setPixmap(scaledPix);
+
+        // Update the UI with the selected row's data
+        ui->nom_o->setText(nom_o);
+        ui->date_o->setText(date_o);
+        ui->prix_o->setText(prix_o);
+        ui->discription_o->setText(discription_o);
+    }
 }
